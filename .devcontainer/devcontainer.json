@@ -1,0 +1,21 @@
+{
+    "name": "auth-server-dev",
+    "dockerComposeFile": [
+        "../docker-compose.yml"
+    ],
+    "service": "server",
+    "workspaceFolder": "/server",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "golang.go",
+                "ms-azuretools.vscode-docker"
+            ]
+        }
+    },
+    "features": {
+        "ghcr.io/joshuanianji/devcontainer-features/gcloud-cli-persistence:1": {
+            "version": "latest"
+        }
+    }
+}

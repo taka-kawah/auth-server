@@ -1,0 +1,1 @@
+UPDATE reserve SET is_deleted=true WHERE age(current_timestamp, exp) > interval '10 minutes' AND is_deleted=false

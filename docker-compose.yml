@@ -1,0 +1,42 @@
+version: "3"
+
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    command: ["./scripts/init.sh"]
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    networks:
+      - authdev
+    volumes:
+      - ./server:/server
+
+  db:
+    image: postgres:15
+    ports:
+      - 5432:5432
+    env_file:
+      - ./db/.env.docker
+    networks:
+      - authdev
+
+  cronjob:
+    build:
+      context: ./cronjob
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    networks:
+      - authdev
+    env_file:
+      - ./db/.env.docker
+    volumes:
+      - ./cronjob:/cronjob
+
+networks:
+  authdev:
+    driver: bridge
