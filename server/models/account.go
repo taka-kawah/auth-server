@@ -5,3 +5,8 @@ type Account struct {
 	MailAddress    string `validate:"required,email"`
 	HashedPassword string `validate:"required,sha256"`
 }
+
+type AccountFragment struct {
+	MailAddress    string `validate:"required,email"`
+	HashedPassword string `validate:"required,sha256"`
+}

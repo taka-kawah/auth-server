@@ -12,16 +12,16 @@ func (h *HttpHandler) CreateAccount(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, `{"status":"permits only POST"}`, http.StatusMethodNotAllowed)
 		return
 	}
-	var a models.Account
-	if err := json.NewDecoder(r.Body).Decode(&a); err != nil {
+	var af models.AccountFragment
+	if err := json.NewDecoder(r.Body).Decode(&af); err != nil {
 		http.Error(w, fmt.Sprintf(`{"status":"%s"}`, err), http.StatusInternalServerError)
 		return
 	}
-	if err := h.v.Validate(a); err != nil {
+	if err := h.v.Validate(af); err != nil {
 		http.Error(w, fmt.Sprintf(`{"status":"%s"}`, err), http.StatusForbidden)
 		return
 	}
-	id, err := h.a.Create(a.MailAddress, a.HashedPassword)
+	id, err := h.a.Create(af.MailAddress, af.HashedPassword)
 	if err != nil {
 		http.Error(w, fmt.Sprintf(`{"status":"%s"}`, err), http.StatusInternalServerError)
 		return
