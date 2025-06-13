@@ -5,11 +5,12 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    command: ["./scripts/init.sh"]
     ports:
       - 8000:8000
     depends_on:
       - db
+    env_file:
+      - ./db/.env.docker
     networks:
       - authdev
     volumes:
@@ -21,6 +22,8 @@ services:
       - 5432:5432
     env_file:
       - ./db/.env.docker
+    volumes:
+      - ./db/tables.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - authdev
 

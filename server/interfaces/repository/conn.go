@@ -5,14 +5,11 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/joho/godotenv"
+	_ "github.com/jackc/pgx/v4/stdlib"
 )
 
 func CreatePostgresConnection() (*sql.DB, error) {
-	if err := godotenv.Load(); err != nil {
-		return nil, err
-	}
-	dsn := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable", os.Getenv("host"), os.Getenv("port"), os.Getenv("user"), os.Getenv("dbname"), os.Getenv("password"))
+	dsn := fmt.Sprintf("host=%s port=postgres user=%s dbname=%s password=%s sslmode=disable", os.Getenv("HOST"), os.Getenv("PORT"), os.Getenv("POSTGRES_DB"), os.Getenv("POSTGRES_PASSWORD"))
 	db, err := sql.Open("pgx", dsn)
 	if err != nil {
 		return nil, err

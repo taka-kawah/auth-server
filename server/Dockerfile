@@ -1,8 +1,4 @@
-FROM golang:1.24.3-bookworm
-
-RUN apt update
-RUN apt install -y postgresql-client
-
+FROM golang:1.25-rc
 
 WORKDIR /server
 
@@ -11,6 +7,8 @@ COPY go.sum ./
 
 RUN go mod download
 
+RUN go install github.com/air-verse/air@latest
+
 COPY . .
 
-CMD ["./scripts/init.sh"]
+CMD [ "air" ]

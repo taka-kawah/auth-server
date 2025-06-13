@@ -32,6 +32,9 @@ func main() {
 	h := handler.NewHttpHandler(v, acService, reService, tk)
 
 	mux := http.NewServeMux()
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte("古舘くれあさんに、フル勃ち...w"))
+	})
 	mux.HandleFunc("/signup", h.CreateAccount)
 	mux.HandleFunc("/signin", h.Login)
 	mux.HandleFunc("/mail", h.SendEmail)
@@ -41,5 +44,5 @@ func main() {
 
 	http.Handle("/auth/", http.StripPrefix("/auth", mux))
 
-	http.ListenAndServe(":8080", mux)
+	http.ListenAndServe(":8000", mux)
 }
