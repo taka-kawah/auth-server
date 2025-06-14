@@ -33,7 +33,7 @@ func main() {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("古舘くれあさんに、フル勃ち...w"))
+		w.Write([]byte("TEST OK"))
 	})
 	mux.HandleFunc("/signup", h.CreateAccount)
 	mux.HandleFunc("/signin", h.Login)

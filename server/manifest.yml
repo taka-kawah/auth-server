@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-server
+  namespace: auth
+  labels:
+    app: auth-server
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5432
+    name: tcp
+  selector:
+    app: auth-server
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-server
+  namespace: auth
+  labels:
+    app: auth-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-server
+  template:
+    metadata:
+      labels:
+        app: auth-server
+    spec:
+      containers:
+      - name: auth-server
+        image: geaa/auth-server-server:latest
+        ports:
+        - containerPort: 8000
+        envFrom:
+        - configMapRef:
+            name: db-config
+        - secretRef:
+            name: db-secret
