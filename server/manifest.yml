@@ -8,7 +8,7 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-  - port: 5432
+  - port: 8000
     name: tcp
   selector:
     app: auth-server
