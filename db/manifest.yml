@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-db
+  namespace: auth
+  labels:
+    app: auth-db
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5432
+    name: tcp
+  selector:
+    app: auth-db
+
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: auth-db
+  namespace: auth
+  labels:
+    app: auth-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-db
+  template:
+    metadata:
+      labels:
+        app: auth-db
+    spec:
+      containers:
+      - name: db
+        image: postgres:15
+        ports:
+        - containerPort: 5432
+        envFrom:
+        - configMapRef:
+            name: db-config
+        - secretRef:
+            name: db-secret
+        volumeMounts:
+        - name: auth-storage
+          mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+  - metadata:
+      name: auth-storage
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: hostpath
+      resources:
+        requests:
+          storage: 1Gi

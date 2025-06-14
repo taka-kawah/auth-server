@@ -1,1 +1,1 @@
-*/10 * * * * postgres . /etc/cron.d/.env.sh && PGPASSWORD=$POSTGRES_PASSWORD psql -h db -U postgres -d postgres -f reserve_clean.sql > /var/log/cronjob.log 2>&1
+*/10 * * * * postgres . /etc/cron.d/.env.sh && PGPASSWORD=$POSTGRES_PASSWORD psql -h db -U postgres -d authdb -f reserve_clean.sql > /var/log/cronjob.log 2>&1
